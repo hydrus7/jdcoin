@@ -1,0 +1,6 @@
+usr/local/bin/jdcoin-qt usr/bin
+share/pixmaps/jdcoin32.xpm usr/share/pixmaps
+share/pixmaps/jdcoin16.xpm usr/share/pixmaps
+share/pixmaps/jdcoin128.png usr/share/pixmaps
+debian/jdcoin-qt.desktop usr/share/applications
+debian/jdcoin-qt.protocol usr/share/kde4/services/

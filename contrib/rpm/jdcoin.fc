@@ -1,0 +1,8 @@
+/usr/bin/jdcoin-cli		--	gen_context(system_u:object_r:jdcoin_exec_t,s0)
+/usr/sbin/jdcoind		--	gen_context(system_u:object_r:jdcoin_exec_t,s0)
+/usr/lib(64)?/jdcoin/jdcoind		--	gen_context(system_u:object_r:jdcoin_exec_t,s0)
+
+/etc/jdcoin(/.*)?		gen_context(system_u:object_r:jdcoin_conf_t,s0)
+/var/lib/jdcoin(/.*)?		gen_context(system_u:object_r:jdcoin_var_lib_t,s0)
+
+(/var)?/run/jdcoind(/.*)?   gen_context(system_u:object_r:jdcoin_var_run_t,s0)

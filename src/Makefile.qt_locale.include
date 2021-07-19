@@ -1,0 +1,15 @@
+QT_TS = \
+  qt/locale/jdcoin_de.ts \
+  qt/locale/jdcoin_en.ts \
+  qt/locale/jdcoin_en_US.ts \
+  qt/locale/jdcoin_es.ts \
+  qt/locale/jdcoin_es_ES.ts \
+  qt/locale/jdcoin_fr_FR.ts \
+  qt/locale/jdcoin_hr_HR.ts \
+  qt/locale/jdcoin_it.ts \
+  qt/locale/jdcoin_ko_KR.ts \
+  qt/locale/jdcoin_nl.ts \
+  qt/locale/jdcoin_pl.ts \
+  qt/locale/jdcoin_ru.ts \
+  qt/locale/jdcoin_tr.ts \
+  qt/locale/jdcoin_zh_CN.ts

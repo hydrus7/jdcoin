@@ -1,0 +1,3 @@
+usr/local/bin/jdcoind usr/bin
+usr/local/bin/jdcoin-cli usr/bin
+debian/examples/jdcoin.conf etc/jdcoin
