@@ -73,7 +73,7 @@ If you want to build the windows installer with `make deploy` you need [NSIS](ht
 
 Acquire the source in the usual way:
 
-    git clone https://github.com/JdCoinNodes/JDCOIN.git
+    git clone https://github.com/hydrus7/jdcoin.git
     cd jdcoin
 
 ## Building for 64-bit Windows

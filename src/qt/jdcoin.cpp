@@ -466,7 +466,6 @@ void BitcoinApplication::initializeResult(int retval)
     returnValue = retval ? 0 : 1;
     if (retval) {
 #ifdef ENABLE_WALLET
-        PaymentServer::LoadRootCAs();
         paymentServer->setOptionsModel(optionsModel);
 #endif
 
@@ -480,8 +479,6 @@ void BitcoinApplication::initializeResult(int retval)
             window->addWallet(JDCOINGUI::DEFAULT_WALLET, walletModel);
             window->setCurrentWallet(JDCOINGUI::DEFAULT_WALLET);
 
-            connect(walletModel, &WalletModel::coinsSent,
-                    paymentServer, &PaymentServer::fetchPaymentACK);
         }
 #endif
 

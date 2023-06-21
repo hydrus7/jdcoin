@@ -9,7 +9,7 @@ NO_WALLET ?=
 NO_ZMQ ?=
 NO_UPNP ?=
 NO_RUST ?=
-FALLBACK_DOWNLOAD_PATH ?= https://depends.jdcoin.org
+FALLBACK_DOWNLOAD_PATH ?= https://depends.pivx.org
 
 BUILD = $(shell ./config.guess)
 HOST ?= $(BUILD)

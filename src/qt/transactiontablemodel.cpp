@@ -27,7 +27,6 @@
 #include <QDebug>
 #include <QIcon>
 #include <QList>
-#include <QtConcurrent/QtConcurrent>
 #include <QFuture>
 
 #define SINGLE_THREAD_MAX_TXES_SIZE 4000
@@ -103,68 +102,9 @@ public:
 
         std::vector<CWalletTx> walletTxes = wallet->getWalletTxs();
 
-        // Divide the work between multiple threads to speedup the process if the vector is larger than 4k txes
-        std::size_t txesSize = walletTxes.size();
-        if (txesSize > SINGLE_THREAD_MAX_TXES_SIZE) {
-
-            // First check if the amount of txs exceeds the UI limit
-            if (txesSize > MAX_AMOUNT_LOADED_RECORDS) {
-                // Sort the txs by date just to be really really sure that them are ordered.
-                // (this extra calculation should be removed in the future if can ensure that
-                // txs are stored in order in the db, which is what should be happening)
-                sort(walletTxes.begin(), walletTxes.end(),
-                        [](const CWalletTx & a, const CWalletTx & b) -> bool {
-                         return a.GetTxTime() > b.GetTxTime();
-                     });
-
-                // Only latest ones.
-                walletTxes = std::vector<CWalletTx>(walletTxes.begin(), walletTxes.begin() + MAX_AMOUNT_LOADED_RECORDS);
-                txesSize = walletTxes.size();
-            };
-
-            // Simple way to get the processors count
-            std::size_t threadsCount = (QThreadPool::globalInstance()->maxThreadCount() / 2 ) + 1;
-
-            // Size of the tx subsets
-            std::size_t const subsetSize = txesSize / (threadsCount + 1);
-            std::size_t totalSumSize = 0;
-            QList<QFuture<ConvertTxToVectorResult>> tasks;
-
-            // Subsets + run task
-            for (std::size_t i = 0; i < threadsCount; ++i) {
-                tasks.append(
-                        QtConcurrent::run(
-                                convertTxToRecords,
-                                this,
-                                wallet,
-                                std::vector<CWalletTx>(walletTxes.begin() + totalSumSize, walletTxes.begin() + totalSumSize + subsetSize)
-                        )
-                 );
-                totalSumSize += subsetSize;
-            }
-
-            // Now take the remaining ones and do the work here
-            std::size_t const remainingSize = txesSize - totalSumSize;
-            auto res = convertTxToRecords(this, wallet,
-                                              std::vector<CWalletTx>(walletTxes.end() - remainingSize, walletTxes.end())
-            );
-            cachedWallet.append(res.records);
-            nFirstLoadedTxTime = res.nFirstLoadedTxTime;
-
-            for (auto &future : tasks) {
-                future.waitForFinished();
-                ConvertTxToVectorResult convertRes = future.result();
-                cachedWallet.append(convertRes.records);
-                if (nFirstLoadedTxTime > convertRes.nFirstLoadedTxTime) {
-                    nFirstLoadedTxTime = convertRes.nFirstLoadedTxTime;
-                }
-            }
-        } else {
-            // Single thread flow
-            ConvertTxToVectorResult convertRes = convertTxToRecords(this, wallet, walletTxes);
-            cachedWallet.append(convertRes.records);
-            nFirstLoadedTxTime = convertRes.nFirstLoadedTxTime;
-        }
+        ConvertTxToVectorResult convertRes = convertTxToRecords(this, wallet, walletTxes);
+        cachedWallet.append(convertRes.records);
+        nFirstLoadedTxTime = convertRes.nFirstLoadedTxTime;
     }
 
     static ConvertTxToVectorResult convertTxToRecords(TransactionTablePriv* tablePriv, const CWallet* wallet, const std::vector<CWalletTx>& walletTxes) {

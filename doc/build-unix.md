@@ -65,7 +65,28 @@ tuned to conserve memory with additional CXXFLAGS:
 
 ### Ubuntu & Debian
 
-#### Dependency Build Instructions
+#### Dependency Build Instructions (ubuntu 20 to 23)
+
+Build requirements:
+
+    sudo apt-get install build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 yacc
+    
+Acquire the source in the usual way:
+
+    git clone https://github.com/hydrus7/jdcoin.git
+    cd jdcoin
+    
+Build using:
+
+    cd depends
+    make HOST=x86_64-pc-linux-gnu
+    cd ..
+    ./autogen.sh
+    CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=/
+    make
+	
+
+#### Dependency Build Instructions (ubuntu 16 & ubuntu 18)
 
 Build requirements:
 
@@ -81,7 +102,7 @@ BerkeleyDB is required for the wallet.
  You can add the repository using the following command:
 
     sudo apt-get install software-properties-common
-    sudo add-apt-repository ppa:jdcoin/jdcoin
+    sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
     sudo apt-get install libdb4.8-dev libdb4.8++-dev
 

@@ -70,14 +70,14 @@ rust_crates := \
   crate_winapi_x86_64_pc_windows_gnu \
   crate_zcash_primitives \
   crate_zcash_proofs
-
+  
 rust_packages := rust $(rust_crates)
 packages:=boost openssl libevent gmp $(zcash_packages) libsodium
 
 qt_native_packages = native_protobuf
 qt_packages = qrencode protobuf zlib
 
-qt_linux_packages:=qt expat dbus libxcb xcb_proto libXau xproto freetype fontconfig libX11 xextproto libXext xtrans
+qt_linux_packages:=qt expat libxcb xcb_proto libXau xproto freetype fontconfig libX11 xextproto libXext xtrans libxkbcommon libxcb_util libxcb_util_render libxcb_util_keysyms libxcb_util_image libxcb_util_wm
 
 qt_darwin_packages=qt
 qt_mingw32_packages=qt

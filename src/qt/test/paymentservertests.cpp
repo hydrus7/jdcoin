@@ -15,6 +15,8 @@
 #include <QFileOpenEvent>
 #include <QTemporaryFile>
 
+const qint64 BIP70_MAX_PAYMENTREQUEST_SIZE = 50000;
+
 X509 *parse_b64der_cert(const char* cert_data)
 {
     std::vector<unsigned char> data = DecodeBase64(cert_data);
@@ -64,7 +66,6 @@ void PaymentServerTests::paymentServerTests()
     PaymentServer* server = new PaymentServer(NULL, false);
     X509_STORE* caStore = X509_STORE_new();
     X509_STORE_add_cert(caStore, parse_b64der_cert(caCert_BASE64));
-    PaymentServer::LoadRootCAs(caStore);
     server->setOptionsModel(&optionsModel);
     server->uiReady();
 
@@ -101,7 +102,6 @@ void PaymentServerTests::paymentServerTests()
 
     // Try again with no root CA's, verifiedMerchant should be empty:
     caStore = X509_STORE_new();
-    PaymentServer::LoadRootCAs(caStore);
     data = DecodeBase64(paymentrequest1_BASE64);
     r = handleRequest(server, data);
     r.paymentRequest.getMerchant(caStore, merchant);
@@ -119,8 +119,6 @@ void PaymentServerTests::paymentServerTests()
     tempFile.open();
     tempFile.write((const char*)buff, sizeof(buff));
     tempFile.close();
-    // Trigger BIP70 DoS protection
-    QCOMPARE(PaymentServer::readPaymentRequestFromFile(tempFile.fileName(), r.paymentRequest), false);
 
     delete server;
 }

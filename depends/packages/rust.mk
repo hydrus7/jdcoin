@@ -1,8 +1,8 @@
 package=rust
 $(package)_version=1.42.0
-$(package)_download_path=https://depends.jdcoin.org
+$(package)_download_path=https://depends.pivx.org
 $(package)_file_name_linux=rust-$($(package)_version)-x86_64-unknown-linux-gnu.tar.gz
-$(package)_sha256_hash_linux=5fed7d705e215fc129c4ace8060b5dc1a47e88228ce0249d48f30d769fcb6fe3
+$(package)_sha256_hash_linux=fce33280b344ab0fecc55be24632a3c0086fd763f4df1d59013dfc0e49f0356c
 $(package)_file_name_darwin=rust-$($(package)_version)-x86_64-apple-darwin.tar.gz
 $(package)_sha256_hash_darwin=db1055c46e0d54b99da05e88c71fea21b3897e74a4f5ff9390e934f3f050c0a8
 $(package)_file_name_freebsd=rust-$($(package)_version)-x86_64-unknown-freebsd.tar.gz
